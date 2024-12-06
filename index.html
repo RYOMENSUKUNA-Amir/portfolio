@@ -1,0 +1,242 @@
+
+<!DOCTYPE html >
+<head>
+    
+    <title>what the </title>
+</head>
+<body>
+ <body> <canvas id="anime"  width="1000" height="1000"></canvas>
+    </body>
+   
+    <script>
+    
+            var canvas=document.getElementById("anime");
+            var ctx=canvas.getContext("2d");
+        
+        
+            var move_left_flag=0;
+            var move_right_flag=0;
+            var move_up_flag=0;
+            var move_down_flag=0;
+        
+            
+            
+        
+        
+        
+            class c_cirlce
+                {
+                    constructor(l_xpos,l_ypos,l_radius,l_color)
+                    {
+                        this.x_pos=l_xpos;
+                        this.y_pos=l_ypos;
+                        this.radius=l_radius;
+                        this.color=l_color;
+                        this.x_move=2;
+                        this.y_move=2;
+                        this.a=0;
+                        this.b=0;
+                        this.c=0;
+                        
+                        
+                    }
+                    
+                    draw_circle(l_ctx)
+                    {
+                        l_ctx.fillStyle=this.color;
+                        l_ctx.beginPath();
+                        l_ctx.arc(this.x_pos,this.y_pos,this.radius,0,360);
+                        l_ctx.fill();
+                        l_ctx.closePath();
+                    }
+                    
+                   
+                    
+                    
+                 move_circle(l_right,l_left,l_up,l_down)
+                        {
+      
+                 if(l_right ==1)
+                     {
+                        
+                             this.x_pos+=this.x_move;
+                        
+                     }
+                if(l_left ==1)
+                    {
+                      
+                              this.x_pos-=this.x_move;
+                        
+                    }
+                if(l_up ==1)
+                    {
+                        
+                            this.y_pos-=this.y_move;
+                         
+                    }
+                if(l_down ==1)
+                    {
+                       
+                            this.y_pos+=this.y_move;
+                          
+                    }
+                    
+                    
+                    
+                    
+                        }   
+                    
+                    collision_between(l_object_1,l_object_2)
+                    {
+                        
+                        if(this.c <=l_object_1.radius+l_object_2.radius)
+                            {
+                                l_object_1.color="#0aff00";
+                                console.log("collision is working");
+                            }else
+                                {
+                                  l_object_1.color="#00f5ff";  
+                                   
+                                    console.log("collision not is working");
+                                }
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                    }
+                    distance_between(l_object1,l_object2)
+                    {
+                       this.a=(l_object2.x_pos - l_object1.x_pos)*(l_object2.x_pos - l_object1.x_pos); 
+                       this.b=(l_object2.y_pos - l_object1.y_pos)*(l_object2.y_pos - l_object1.y_pos); 
+                        
+                        this.c=this.a+this.b;
+                        
+                        this.c=Math.sqrt(this.c);
+                     // console.log("distance is working");
+                      // console.log(this.c);
+                                                
+
+                        
+                    }
+        
+                }
+        
+        
+        
+           
+          
+            var  circle_1 = new c_cirlce(100,100,50,"#00ebff");
+            var  circle_2 = new c_cirlce(500,500,50,"#ebff00");
+         
+        
+        
+       
+        
+              function clearcanvas()
+                {
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                    ctx.lineWidth=7;
+                     ctx.strokeRect(0,0,canvas.width,canvas.height);
+                }
+        
+        
+        
+        function gameloop()
+                {
+                    //logic
+                   
+                   circle_1.move_circle(move_right_flag,move_left_flag,move_up_flag,move_down_flag);
+                    circle_1.distance_between(circle_1,circle_2);
+                    circle_1.collision_between(circle_1,circle_2);
+                  // circle_1.collision(circle_1,circle_2);
+                    
+                 
+                    
+                    
+                        
+                    //clear
+                    
+                    clearcanvas();
+                    
+                    
+                    //render
+                    circle_1.draw_circle(ctx);   
+                    circle_2.draw_circle(ctx);   
+                    
+                    
+                   
+                    
+                }
+        
+        
+    
+        var framerate=30;
+        var time=1000/framerate;
+    
+        setInterval(gameloop,time);
+        
+        window.addEventListener("keydown",movement_event_begin);
+        window.addEventListener("keyup",movement_event_end);
+        
+        function movement_event_begin(l_key)
+        {
+            if(l_key.keyCode == 37)
+                {
+                   move_left_flag=1; 
+                }
+            if(l_key.keyCode == 39)
+                {
+                   move_right_flag=1; 
+                }
+            if(l_key.keyCode == 40)
+                {
+                   move_down_flag=1; 
+                }
+            if(l_key.keyCode == 38)
+                {
+                    move_up_flag=1;
+                }
+            if(l_key.keyCode ==16)
+                {
+                    fast_flag=1;
+                }
+        }
+        
+        function movement_event_end(l_key)
+        {
+            if(l_key.keyCode == 37)
+                {
+                   move_left_flag=0; 
+                }
+            if(l_key.keyCode == 39)
+                {
+                    move_right_flag=0;  
+                }
+            if(l_key.keyCode == 40)
+                {
+                    move_down_flag=0;  
+                }
+            if(l_key.keyCode == 38)
+                {
+                     move_up_flag=0;
+                }
+            if(l_key.keyCode ==16)
+                {
+                    fast_flag=0;
+                }
+            
+        }
+
+
+
+
+
+
+
+    
+</script>
+</html>
